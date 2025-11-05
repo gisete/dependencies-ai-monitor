@@ -104,7 +104,7 @@ ${JSON.stringify(results, null, 2)}
 
 Please structure your response as follows:
 
-## 📋 SUMMARY
+SUMMARY
 List which repositories need attention:
 - CRITICAL: [repo names that have critical updates]
 - IMPORTANT: [repo names that have important updates]  
@@ -112,17 +112,17 @@ List which repositories need attention:
 
 Then, for EACH repository separately, provide:
 
-## 🔧 [Repository Name]
+[Repository Name]
 
-### 🚨 CRITICAL (if any)
-- Package name: current → latest
+CRITICAL (if any)
+- Package name: current to latest
 - Why it matters and what to do
 
-### ⚠️ IMPORTANT (if any)
-- Package name: current → latest
+IMPORTANT (if any)
+- Package name: current to latest
 - Why it matters and what to do
 
-### ✅ LOW PRIORITY (if any)
+LOW PRIORITY (if any)
 - Just list the package names and versions briefly
 
 Each repository is independent - do NOT compare versions across different projects. Analyze each repo on its own merits.
