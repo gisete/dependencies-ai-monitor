@@ -220,19 +220,6 @@ async function main() {
 	const gmailPassword = process.env.GMAIL_APP_PASSWORD;
 	const recipient = process.env.RECIPIENT_EMAIL;
 
-	// Debug: Check if credentials are loaded
-	console.log("🔍 Checking environment variables...");
-	console.log("GH_TOKEN present:", !!githubToken, githubToken ? `(${githubToken.substring(0, 7)}...)` : "(missing)");
-	console.log("ANTHROPIC_API_KEY present:", !!anthropicKey);
-	console.log("GMAIL_USER present:", !!gmailUser, gmailUser || "(missing)");
-	console.log("GMAIL_APP_PASSWORD present:", !!gmailPassword);
-	console.log("RECIPIENT_EMAIL present:", !!recipient, recipient || "(missing)");
-
-	if (!githubToken) {
-		console.error("❌ GH_TOKEN is not set! Check your GitHub secrets.");
-		process.exit(1);
-	}
-
 	console.log("🚀 Starting dependency check...");
 
 	const results = [];
