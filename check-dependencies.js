@@ -96,19 +96,38 @@ async function checkOutdatedPackages(packageJson, repoName) {
 
 // Call Claude API for analysis
 async function analyzeWithClaude(results, apiKey) {
-	const prompt = `You are a dependency management assistant. Analyze these npm package updates and categorize them by priority.
+	const prompt = `You are a dependency management assistant. Analyze these npm package updates and provide a clear, actionable report.
 
 Here are the outdated packages across multiple projects:
 
 ${JSON.stringify(results, null, 2)}
 
-Please provide:
-1. CRITICAL updates (security vulnerabilities, major bugs that need immediate attention)
-2. IMPORTANT updates (breaking changes, deprecated features, significant improvements)
-3. LOW PRIORITY updates (minor patches, can wait)
+Please structure your response as follows:
 
-For CRITICAL and IMPORTANT items, explain WHY they matter and what action should be taken.
-Keep your response clear, actionable, and concise. Use a friendly but professional tone.`;
+## 📋 SUMMARY
+List which repositories need attention:
+- CRITICAL: [repo names that have critical updates]
+- IMPORTANT: [repo names that have important updates]  
+- LOW PRIORITY ONLY: [repo names with only minor updates]
+
+Then, for EACH repository separately, provide:
+
+## 🔧 [Repository Name]
+
+### 🚨 CRITICAL (if any)
+- Package name: current → latest
+- Why it matters and what to do
+
+### ⚠️ IMPORTANT (if any)
+- Package name: current → latest
+- Why it matters and what to do
+
+### ✅ LOW PRIORITY (if any)
+- Just list the package names and versions briefly
+
+Each repository is independent - do NOT compare versions across different projects. Analyze each repo on its own merits.
+
+Keep explanations clear, actionable, and concise. Use a friendly but professional tone.`;
 
 	return new Promise((resolve, reject) => {
 		const data = JSON.stringify({
@@ -219,6 +238,19 @@ async function main() {
 	const gmailUser = process.env.GMAIL_USER;
 	const gmailPassword = process.env.GMAIL_APP_PASSWORD;
 	const recipient = process.env.RECIPIENT_EMAIL;
+
+	// Debug: Check if credentials are loaded
+	console.log("🔍 Checking environment variables...");
+	console.log("GH_TOKEN present:", !!githubToken, githubToken ? `(${githubToken.substring(0, 7)}...)` : "(missing)");
+	console.log("ANTHROPIC_API_KEY present:", !!anthropicKey);
+	console.log("GMAIL_USER present:", !!gmailUser, gmailUser || "(missing)");
+	console.log("GMAIL_APP_PASSWORD present:", !!gmailPassword);
+	console.log("RECIPIENT_EMAIL present:", !!recipient, recipient || "(missing)");
+
+	if (!githubToken) {
+		console.error("❌ GH_TOKEN is not set! Check your GitHub secrets.");
+		process.exit(1);
+	}
 
 	console.log("🚀 Starting dependency check...");
 
