@@ -1,0 +1,15 @@
+{
+  "name": "dependencies-ai-monitor",
+  "version": "1.0.0",
+  "description": "AI-powered dependency monitoring for multiple GitHub repos",
+  "main": "check-dependencies.js",
+  "scripts": {
+    "check": "node check-dependencies.js"
+  },
+  "keywords": ["dependencies", "monitoring", "npm", "ai"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "nodemailer": "^6.9.7"
+  }
+}

@@ -1,0 +1,5 @@
+{
+	"repos": ["gisete/sope-website", "gisete/laara-app", "gisete/horta-edge-functions", "gisete/farm-store"],
+	"checkSchedule": "monthly",
+	"notificationEmail": "gisete@gmail.com"
+}
