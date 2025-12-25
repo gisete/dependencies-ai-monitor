@@ -225,14 +225,16 @@ async function sendEmail(analysis, results, gmailUser, gmailPassword, recipient)
 	const totalVulnerabilities = results.reduce((sum, r) => sum + r.securityAlerts.length, 0);
 	const totalOutdated = results.reduce((sum, r) => sum + r.outdated.length, 0);
 
-	// Set subject based on security issues
-	let subject = "📦 Monthly Dependency Report";
+	// Set subject based on security issues - keep consistent prefix
+	let subject = "Dependency Report";
 	if (criticalSecurityIssues.length > 0) {
-		subject = `🚨 SECURITY ALERT: ${criticalSecurityIssues.length} Critical Vulnerabilities`;
+		subject = `Dependency Report - 🚨 ${criticalSecurityIssues.length} Critical Vulnerabilities`;
 	} else if (totalVulnerabilities > 0) {
-		subject = `⚠️ Security Update: ${totalVulnerabilities} Vulnerabilities Found`;
+		subject = `Dependency Report - ⚠️ ${totalVulnerabilities} Security Issues`;
 	} else if (totalOutdated > 0) {
-		subject = `📦 ${totalOutdated} Package Updates Available`;
+		subject = `Dependency Report - ${totalOutdated} Updates Available`;
+	} else {
+		subject = `Dependency Report - ✅ All Up To Date`;
 	}
 
 	const mailOptions = {
@@ -401,7 +403,7 @@ async function main() {
 		await transporter.sendMail({
 			from: gmailUser,
 			to: recipient,
-			subject: "✅ Dependency Check: All Secure & Up To Date",
+			subject: "Dependency Report - ✅ All Secure & Up To Date",
 			text: `Good news! All your projects have up-to-date dependencies with no security vulnerabilities.\n\nChecked on: ${new Date().toLocaleDateString()}`,
 		});
 
